@@ -1,0 +1,285 @@
+<form>
+  <label>Search by role:</label>
+  <input type="text" [(ngModel)]="searchTerm" name="searchTerm" />
+  <button type="submit" (click)="onSubmit()">Search</button>
+  <button type="button" (click)="onClear()">Clear</button>
+</form>
+<button
+  type="button"
+  (click)="showAddPatient = true"
+  class="btn btn-primary"
+  data-bs-toggle="modal"
+  data-bs-target="#exampleModal"
+>
+  Add Patient
+</button>
+
+<table>
+  <thead>
+    <tr>
+      <th>ID</th>
+      <th>Name</th>
+      <th>Gender</th>
+      <th>DateOfBirth</th>
+      <th>PhoneNumber</th>
+      <th>Address</th>
+      
+    </tr>
+  </thead>
+  <tbody>
+    <tr *ngFor="let user of users">
+      <td>{{ user.id }}</td>
+      <td>{{ user.name }}</td>
+      <td>{{ user.gender }}</td>
+      <td>{{ user.dateOfBirth }}</td>
+      <td>{{ user.phoneNumber }}</td>
+      <td>{{ user.address }}</td>
+      <td>
+        <button
+          type="button"
+          class="btn btn-success"
+          data-bs-toggle="modal"
+          data-bs-target="#editModal"
+          (click)="editPatient(user)"
+        >
+          Edit
+        </button>
+      </td>
+      <td>
+        <button
+          type="button"
+          class="btn btn-danger"
+          (click)="deletePatient(user)"
+        >
+          Delete
+        </button>
+      </td>
+    </tr>
+  </tbody>
+</table>
+
+<div
+  class="modal fade"
+  [ngClass]="{ show: showAddPatient }"
+  id="exampleModal"
+  tabindex="-1"
+  aria-labelledby="exampleModalLabel"
+  aria-hidden="true"
+  [style.display]="showAddPatient ? 'block' : 'none'"
+>
+  <div class="modal-dialog">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h1 class="modal-title fs-5" id="exampleModalLabel">Add Patient</h1>
+        <button
+          type="button"
+          (click)="toggleAddPatientModal()"
+          class="btn-close"
+          data-bs-dismiss="modal"
+          aria-label="Close"
+        ></button>
+      </div>
+      <div class="modal-body">
+        <form class="form">
+          <div class="mb-3">
+            <label for="name" class="form-label">Name:</label>
+            <input
+              type="text"
+              [(ngModel)]="newPatient.name"
+              name="name"
+              id="name"
+              class="form-control"
+              required
+            />
+            <span class="text-danger" *ngIf="!newPatient.name"
+              >Name is required</span
+            >
+          </div>
+
+          <div class="mb-3">
+            <label for="gender" class="form-label">Gender:</label>
+            <select
+              [(ngModel)]="newPatient.gender"
+              name="gender"
+              id="gender"
+              class="form-select"
+              required
+            >
+              <option value="">--Select--</option>
+              <option value="Male">Male</option>
+              <option value="Female">Female</option>
+              <option value="Other">Other</option>
+            </select>
+            <span class="text-danger" *ngIf="!newPatient.gender"
+              >Gender is required</span
+            >
+          </div>
+
+          <div class="mb-3">
+            <label for="dateOfBirth" class="form-label">Date of Birth:</label>
+            <input
+              type="date"
+              [(ngModel)]="newPatient.dateOfBirth"
+              name="dateOfBirth"
+              id="dateOfBirth"
+              class="form-control"
+              required
+            />
+            <span class="text-danger" *ngIf="!newPatient.dateOfBirth"
+              >Date of Birth is required</span
+            >
+          </div>
+
+          <div class="mb-3">
+            <label for="phoneNumber" class="form-label">Phone Number:</label>
+            <input
+              type="tel"
+              [(ngModel)]="newPatient.phoneNumber"
+              name="phoneNumber"
+              id="phoneNumber"
+              class="form-control"
+              pattern="[0-9]{10}"
+              required
+            />
+            <span class="text-danger" *ngIf="!newPatient.phoneNumber"
+              >Phone Number is required</span
+            >
+          </div>
+
+          <div class="mb-3">
+            <label for="address" class="form-label">Address:</label>
+            <input
+              type="text"
+              [(ngModel)]="newPatient.address"
+              name="address"
+              id="address"
+              class="form-control"
+              required
+            />
+            <span class="text-danger" *ngIf="!newPatient.address"
+              >Address is required</span
+            >
+          </div>
+        </form>
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-primary" (click)="addPatient()">
+          Add
+        </button>
+      </div>
+    </div>
+  </div>
+</div>
+
+
+
+<!-- edit -->
+<div
+  class="modal fade"
+  [ngClass]="{ show: showEditPatient }"
+  id="editModal"
+  tabindex="-1"
+  aria-labelledby="editModalLabel"
+  aria-hidden="true"
+  [style.display]="showEditPatient ? 'block' : 'none'"
+>
+  <div class="modal-dialog">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title" id="editModalLabel">Edit Patient</h5>
+        <button
+          type="button"
+          class="btn-close"
+          data-bs-dismiss="modal"
+          aria-label="Close"
+          (click)="toggleEditPatientModal()"
+        ></button>
+      </div>
+      <div class="modal-body">
+        <form>
+          <div class="mb-3">
+            <label for="name" class="form-label">Name:</label>
+            <input
+              type="text"
+              [(ngModel)]="updatedPatient.name"
+              name="name"
+              id="name"
+              class="form-control"
+              required
+            />
+          </div>
+
+          <div class="mb-3">
+            <label for="gender" class="form-label">Gender:</label>
+            <select
+              [(ngModel)]="updatedPatient.gender"
+              name="gender"
+              id="gender"
+              class="form-select"
+              required
+            >
+              <option value="">--Select--</option>
+              <option value="Male">Male</option>
+              <option value="Female">Female</option>
+              <option value="Other">Other</option>
+            </select>
+          </div>
+
+          <div class="mb-3">
+            <label for="dateOfBirth" class="form-label">Date of Birth:</label>
+            <input
+              type="date"
+              [(ngModel)]="updatedPatient.dateOfBirth"
+              name="dateOfBirth"
+              id="dateOfBirth"
+              class="form-control"
+              required
+            />
+          </div>
+
+          <div class="mb-3">
+            <label for="phoneNumber" class="form-label">Phone Number:</label>
+            <input
+              type="tel"
+              [(ngModel)]="updatedPatient.phoneNumber"
+              name="phoneNumber"
+              id="phoneNumber"
+              class="form-control"
+              pattern="[0-9]{10}"
+              required
+            />
+          </div>
+
+          <div class="mb-3">
+            <label for="address" class="form-label">Address:</label>
+            <input
+              type="text"
+              [(ngModel)]="updatedPatient.address"
+              name="address"
+              id="address"
+              class="form-control"
+              required
+            />
+          </div>
+        </form>
+      </div>
+      <div class="modal-footer">
+        <button
+          type="button"
+          class="btn btn-secondary"
+          data-bs-dismiss="modal"
+          (click)="toggleEditPatientModal()"
+        >
+          Cancel
+        </button>
+        <button
+          type="button"
+          class="btn btn-primary"
+          (click)="updatePatient()"
+        >
+          Save Changes
+        </button>
+      </div>
+    </div>
+  </div>
+</div>

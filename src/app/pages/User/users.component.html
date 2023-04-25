@@ -1,0 +1,29 @@
+<form>
+    <label>Search by role:</label>
+    <input type="text" [(ngModel)]="searchTerm" name="searchTerm" />
+    <button type="submit" (click)="onSubmit()">Search</button>
+    <button type="button" (click)="onClear()">Clear</button>
+  </form>
+  
+  
+
+<table>
+    <thead>
+      <tr>
+        <th>ID</th>
+        <th>Email</th>
+        
+        <th>Password</th>
+        <th>Role</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr *ngFor="let user of users">
+        <td>{{ user.id }}</td>
+        <td>{{ user.email }}</td>
+        <td>{{ user.password }}</td>
+        <td>{{ user.role }}</td>
+      </tr>
+    </tbody>
+  </table>
+  
