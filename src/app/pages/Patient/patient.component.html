@@ -1,8 +1,8 @@
-<form>
+<form class="form mb-3">
   <label>Search by role:</label>
-  <input type="text" [(ngModel)]="searchTerm" name="searchTerm" />
-  <button type="submit" (click)="onSubmit()">Search</button>
-  <button type="button" (click)="onClear()">Clear</button>
+  <input type="text" [(ngModel)]="searchTerm"  class="form-control mb-3"  name="searchTerm" />
+  <button type="submit"  class="btn btn-primary mr-2" (click)="onSubmit()">Search</button>
+  <button type="button"  class="btn btn-primary" (click)="onClear()">Clear</button>
 </form>
 <button
   type="button"
